@@ -24,6 +24,40 @@ console.log(file.cwd);
 //=> /Users/sindresorhus/dev/vinyl-file
 ```
 
+## API
+
+### read(path, [options], callback)
+
+Creates vinyl file from `path`. Resulting file will be passed to callback.
+
+#### options
+Type: `Object`
+
+#### options.base
+Type: `String`
+Default: `process.cwd()`
+
+Base path, that will be written in resulting object.
+
+#### options.buffer
+Type: `Boolean`
+Default: `true`
+
+Setting this to `false` will return `file.contents` as a stream and not buffer files. This is useful when working with large files. **Note:** Plugins might not implement support for streams.
+
+#### options.read
+Type: `Boolean`
+Default: `true`
+
+Setting this to `false` will return `file.contents` as null and not read the file at all.
+
+## readSync(path, [options])
+
+Creates vinyl file in sync way. Returns vinyl object.
+
+#### options
+
+Same as in `read` method
 
 ## License
 
