@@ -19,23 +19,24 @@ exports.read = function (pth, opts, cb) {
 		}
 
 		var cwd = opts.cwd || process.cwd();
-		var resolvedPath = path.resolve(pth);
 		var base = opts.base || cwd;
 
 		var file = new File({
 			cwd: cwd,
 			base: base,
-			path: resolvedPath,
+			path: path.resolve(pth),
 			stat: stat,
 		});
 
 		if (opts.read === false) {
-			return cb(null, file);
+			cb(null, file);
+			return;
 		}
 
 		if (opts.buffer === false) {
 			file.contents = fs.createReadStream(pth).pipe(stripBom.stream());
-			return cb(null, file);
+			cb(null, file);
+			return;
 		}
 
 		fs.readFile(pth, function (err, buf) {
@@ -43,6 +44,7 @@ exports.read = function (pth, opts, cb) {
 				cb(err);
 				return;
 			}
+
 			file.contents = stripBom(buf);
 			cb(null, file);
 		});

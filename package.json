@@ -24,7 +24,9 @@
     "file",
     "read",
     "virtual",
-    "format"
+    "format",
+    "gulp",
+    "gulpfriendly"
   ],
   "dependencies": {
     "graceful-fs": "^3.0.2",
