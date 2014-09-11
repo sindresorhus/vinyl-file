@@ -15,6 +15,10 @@ test('.read()', function (t) {
 		t.assert(file.contents.length > 10);
 	});
 
+	vinylFile.read('index.js', { cwd: 'wow' }, function (err, file) {
+		t.assert(file.cwd === 'wow');
+	});
+
 	vinylFile.read('index.js', { base: 'wow' }, function (err, file) {
 		t.assert(file.base === 'wow');
 	});
@@ -38,6 +42,9 @@ test('.readSync()', function (t) {
 	t.assert(typeof file.stat === 'object');
 	t.assert(Buffer.isBuffer(file.contents));
 	t.assert(file.contents.length > 10);
+
+	file = vinylFile.readSync('index.js', { cwd: 'wow' });
+	t.assert(file.cwd === 'wow');
 
 	file = vinylFile.readSync('index.js', { base: 'wow' });
 	t.assert(file.base === 'wow');

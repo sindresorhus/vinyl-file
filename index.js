@@ -5,6 +5,7 @@ var stripBom = require('strip-bom');
 var File = require('vinyl');
 
 exports.read = function (pth, opts, cb) {
+	opts = opts || {};
 
 	if (typeof opts === 'function') {
 		cb = opts;
@@ -17,7 +18,7 @@ exports.read = function (pth, opts, cb) {
 			return;
 		}
 
-		var cwd = process.cwd();
+		var cwd = opts.cwd || process.cwd();
 		var resolvedPath = path.resolve(pth);
 		var base = opts.base || cwd;
 
@@ -49,7 +50,7 @@ exports.read = function (pth, opts, cb) {
 };
 
 exports.readSync = function (pth, opts) {
-	if (!opts) { opts = {}; }
+	opts = opts || {};
 
 	var contents;
 
@@ -60,7 +61,7 @@ exports.readSync = function (pth, opts) {
 	}
 
 	return new File({
-		cwd: process.cwd(),
+		cwd: opts.cwd || process.cwd(),
 		base: opts.base || process.cwd(),
 		path: path.resolve(pth),
 		stat: fs.statSync(pth),

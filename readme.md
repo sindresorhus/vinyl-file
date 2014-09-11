@@ -39,6 +39,12 @@ Default: `process.cwd()`
 
 Base path, that will be written in resulting object.
 
+#### options.cwd
+Type: `String`
+Default: `process.cwd()`
+
+Current working directory, that will be written in resulting object.
+
 #### options.buffer
 Type: `Boolean`
 Default: `true`
