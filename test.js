@@ -15,8 +15,8 @@ test('.read()', function (t) {
 		t.assert(file.contents.length > 10);
 	});
 
-	vinylFile.read('index.js', {cwd: 'wow'}, function (err, file) {
-		t.assert(file.cwd === 'wow');
+	vinylFile.read('readme.md', {cwd: 'node_modules/ava'}, function (err, file) {
+		t.assert(/^# ava/.test(file.contents));
 	});
 
 	vinylFile.read('index.js', {base: 'wow'}, function (err, file) {
@@ -43,8 +43,8 @@ test('.readSync()', function (t) {
 	t.assert(Buffer.isBuffer(file.contents));
 	t.assert(file.contents.length > 10);
 
-	file = vinylFile.readSync('index.js', {cwd: 'wow'});
-	t.assert(file.cwd === 'wow');
+	file = vinylFile.readSync('readme.md', {cwd: 'node_modules/ava'});
+	t.assert(/^# ava/.test(file.contents));
 
 	file = vinylFile.readSync('index.js', {base: 'wow'});
 	t.assert(file.base === 'wow');

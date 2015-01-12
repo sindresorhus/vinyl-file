@@ -12,19 +12,21 @@ exports.read = function (pth, opts, cb) {
 		opts = {};
 	}
 
+	var cwd = opts.cwd || process.cwd();
+	var base = opts.base || cwd;
+
+	pth = path.resolve(cwd, pth);
+
 	fs.stat(pth, function (err, stat) {
 		if (err) {
 			cb(err);
 			return;
 		}
 
-		var cwd = opts.cwd || process.cwd();
-		var base = opts.base || cwd;
-
 		var file = new File({
 			cwd: cwd,
 			base: base,
-			path: path.resolve(pth),
+			path: pth,
 			stat: stat,
 		});
 
@@ -54,6 +56,11 @@ exports.read = function (pth, opts, cb) {
 exports.readSync = function (pth, opts) {
 	opts = opts || {};
 
+	var cwd = opts.cwd || process.cwd();
+	var base = opts.base || cwd;
+
+	pth = path.resolve(cwd, pth);
+
 	var contents;
 
 	if (opts.read !== false) {
@@ -63,9 +70,9 @@ exports.readSync = function (pth, opts) {
 	}
 
 	return new File({
-		cwd: opts.cwd || process.cwd(),
-		base: opts.base || process.cwd(),
-		path: path.resolve(pth),
+		cwd: cwd,
+		base: base,
+		path: pth,
 		stat: fs.statSync(pth),
 		contents: contents
 	});
