@@ -1,7 +1,7 @@
 'use strict';
 var test = require('ava');
 var vinylFile = require('./');
-var isStream = require('isstream');
+var isStream = require('is-stream');
 
 test('.read()', function (t) {
 	t.plan(10);

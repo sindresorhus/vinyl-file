@@ -35,6 +35,6 @@
   },
   "devDependencies": {
     "ava": "0.0.4",
-    "isstream": "^0.1.0"
+    "is-stream": "^1.0.0"
   }
 }
