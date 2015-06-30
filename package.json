@@ -1,6 +1,6 @@
 {
   "name": "vinyl-file",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Create a vinyl file from an actual file",
   "license": "MIT",
   "repository": "sindresorhus/vinyl-file",
