@@ -74,6 +74,11 @@ Default: `true`
 Setting this to `false` will return `file.contents` as null and not read the file at all.
 
 
+## Related
+
+- [vinyl-read](https://github.com/SamVerschueren/vinyl-read) - Create vinyl files from glob patterns
+
+
 ## License
 
 MIT © [Sindre Sorhus](http://sindresorhus.com)
