@@ -18,7 +18,7 @@ test('read', async t => {
 	t.is(wow.base, 'wow');
 
 	const noContents = await fn.read('index.js', {read: false});
-	t.same(noContents.contents, null);
+	t.deepEqual(noContents.contents, null);
 
 	const stream = await fn.read('index.js', {buffer: false});
 	t.true(isStream(stream.contents));
@@ -39,7 +39,7 @@ test('read sync', t => {
 	t.is(wow.base, 'wow');
 
 	const noContents = fn.readSync('index.js', {read: false});
-	t.same(noContents.contents, null);
+	t.deepEqual(noContents.contents, null);
 
 	const stream = fn.readSync('index.js', {buffer: false});
 	t.true(isStream(stream.contents));
