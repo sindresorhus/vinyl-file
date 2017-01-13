@@ -1,46 +1,46 @@
 import path from 'path';
 import test from 'ava';
 import isStream from 'is-stream';
-import fn from './';
+import m from './';
 
-test('read', async t => {
-	const index = await fn.read('index.js');
+test('async', async t => {
+	const index = await m.read('index.js');
 	t.is(index.cwd, process.cwd());
 	t.is(index.base, process.cwd());
 	t.is(index.path, path.join(__dirname, 'index.js'));
 	t.true(Buffer.isBuffer(index.contents));
 	t.true(index.contents.length > 10);
 
-	const readme = await fn.read('readme.md', {cwd: 'node_modules/ava'});
+	const readme = await m.read('readme.md', {cwd: 'node_modules/ava'});
 	t.true(/Futuristic test runner/.test(readme.contents.toString('utf8')));
 
-	const wow = await fn.read('index.js', {base: 'wow'});
+	const wow = await m.read('index.js', {base: 'wow'});
 	t.is(wow.base, 'wow');
 
-	const noContents = await fn.read('index.js', {read: false});
+	const noContents = await m.read('index.js', {read: false});
 	t.deepEqual(noContents.contents, null);
 
-	const stream = await fn.read('index.js', {buffer: false});
+	const stream = await m.read('index.js', {buffer: false});
 	t.true(isStream(stream.contents));
 });
 
-test('read sync', t => {
-	const index = fn.readSync('index.js');
+test('sync', t => {
+	const index = m.readSync('index.js');
 	t.is(index.cwd, process.cwd());
 	t.is(index.base, process.cwd());
 	t.is(index.path, path.join(__dirname, 'index.js'));
 	t.true(Buffer.isBuffer(index.contents));
 	t.true(index.contents.length > 10);
 
-	const readme = fn.readSync('readme.md', {cwd: 'node_modules/ava'});
+	const readme = m.readSync('readme.md', {cwd: 'node_modules/ava'});
 	t.true(/Futuristic test runner/.test(readme.contents.toString('utf8')));
 
-	const wow = fn.readSync('index.js', {base: 'wow'});
+	const wow = m.readSync('index.js', {base: 'wow'});
 	t.is(wow.base, 'wow');
 
-	const noContents = fn.readSync('index.js', {read: false});
+	const noContents = m.readSync('index.js', {read: false});
 	t.deepEqual(noContents.contents, null);
 
-	const stream = fn.readSync('index.js', {buffer: false});
+	const stream = m.readSync('index.js', {buffer: false});
 	t.true(isStream(stream.contents));
 });

@@ -1,27 +1,27 @@
 'use strict';
-var path = require('path');
-var fs = require('graceful-fs');
-var stripBom = require('strip-bom');
-var stripBomStream = require('strip-bom-stream');
-var File = require('vinyl');
-var pify = require('pify');
-var Promise = require('pinkie-promise');
-var fsP = pify(fs, Promise);
+const path = require('path');
+const fs = require('graceful-fs');
+const stripBomBuf = require('strip-bom-buf');
+const stripBomStream = require('strip-bom-stream');
+const File = require('vinyl');
+const pify = require('pify');
 
-exports.read = function (pth, opts) {
+const fsP = pify(fs);
+
+exports.read = (pth, opts) => {
 	opts = opts || {};
 
-	var cwd = opts.cwd || process.cwd();
-	var base = opts.base || cwd;
+	const cwd = opts.cwd || process.cwd();
+	const base = opts.base || cwd;
 
 	pth = path.resolve(cwd, pth);
 
-	return fsP.stat(pth).then(function (stat) {
-		var file = new File({
-			cwd: cwd,
-			base: base,
+	return fsP.stat(pth).then(stat => {
+		const file = new File({
+			cwd,
+			base,
 			path: pth,
-			stat: stat
+			stat
 		});
 
 		if (opts.read === false) {
@@ -33,34 +33,34 @@ exports.read = function (pth, opts) {
 			return file;
 		}
 
-		return fsP.readFile(pth).then(function (contents) {
-			file.contents = stripBom(contents);
+		return fsP.readFile(pth).then(contents => {
+			file.contents = stripBomBuf(contents);
 			return file;
 		});
 	});
 };
 
-exports.readSync = function (pth, opts) {
+exports.readSync = (pth, opts) => {
 	opts = opts || {};
 
-	var cwd = opts.cwd || process.cwd();
-	var base = opts.base || cwd;
+	const cwd = opts.cwd || process.cwd();
+	const base = opts.base || cwd;
 
 	pth = path.resolve(cwd, pth);
 
-	var contents;
+	let contents;
 
 	if (opts.read !== false) {
 		contents = opts.buffer === false ?
 			fs.createReadStream(pth).pipe(stripBomStream()) :
-			stripBom(fs.readFileSync(pth));
+			stripBomBuf(fs.readFileSync(pth));
 	}
 
 	return new File({
-		cwd: cwd,
-		base: base,
+		cwd,
+		base,
 		path: pth,
 		stat: fs.statSync(pth),
-		contents: contents
+		contents
 	});
 };
