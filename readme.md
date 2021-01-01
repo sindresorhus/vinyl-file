@@ -1,4 +1,4 @@
-# vinyl-file [![Build Status](https://travis-ci.org/sindresorhus/vinyl-file.svg?branch=master)](https://travis-ci.org/sindresorhus/vinyl-file)
+# vinyl-file
 
 > Create a [Vinyl file](https://github.com/gulpjs/vinyl) from an actual file
 
