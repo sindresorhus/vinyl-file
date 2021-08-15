@@ -1,46 +1,51 @@
-import path from 'path';
+import path from 'node:path';
+import process from 'node:process';
+import {fileURLToPath} from 'node:url';
+import {Buffer} from 'node:buffer';
 import test from 'ava';
-import isStream from 'is-stream';
-import m from './';
+import {isStream} from 'is-stream';
+import {vinylFile, vinylFileSync} from './index.js';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 test('async', async t => {
-	const index = await m.read('index.js');
+	const index = await vinylFile('index.js');
 	t.is(index.cwd, process.cwd());
 	t.is(index.base, process.cwd());
 	t.is(index.path, path.join(__dirname, 'index.js'));
 	t.true(Buffer.isBuffer(index.contents));
 	t.true(index.contents.length > 10);
 
-	const readme = await m.read('readme.md', {cwd: 'node_modules/ava'});
-	t.true(/Futuristic test runner/.test(readme.contents.toString('utf8')));
+	const readme = await vinylFile('readme.md', {cwd: 'node_modules/ava'});
+	t.regex(readme.contents.toString('utf8'), /How is the name written and pronounced/);
 
-	const wow = await m.read('index.js', {base: 'wow'});
+	const wow = await vinylFile('index.js', {base: 'wow'});
 	t.is(wow.base, 'wow');
 
-	const noContents = await m.read('index.js', {read: false});
-	t.deepEqual(noContents.contents, null);
+	const noContents = await vinylFile('index.js', {read: false});
+	t.is(noContents.contents, null);
 
-	const stream = await m.read('index.js', {buffer: false});
+	const stream = await vinylFile('index.js', {buffer: false});
 	t.true(isStream(stream.contents));
 });
 
 test('sync', t => {
-	const index = m.readSync('index.js');
+	const index = vinylFileSync('index.js');
 	t.is(index.cwd, process.cwd());
 	t.is(index.base, process.cwd());
 	t.is(index.path, path.join(__dirname, 'index.js'));
 	t.true(Buffer.isBuffer(index.contents));
 	t.true(index.contents.length > 10);
 
-	const readme = m.readSync('readme.md', {cwd: 'node_modules/ava'});
-	t.true(/Futuristic test runner/.test(readme.contents.toString('utf8')));
+	const readme = vinylFileSync('readme.md', {cwd: 'node_modules/ava'});
+	t.regex(readme.contents.toString('utf8'), /How is the name written and pronounced/);
 
-	const wow = m.readSync('index.js', {base: 'wow'});
+	const wow = vinylFileSync('index.js', {base: 'wow'});
 	t.is(wow.base, 'wow');
 
-	const noContents = m.readSync('index.js', {read: false});
-	t.deepEqual(noContents.contents, null);
+	const noContents = vinylFileSync('index.js', {read: false});
+	t.is(noContents.contents, null);
 
-	const stream = m.readSync('index.js', {buffer: false});
+	const stream = vinylFileSync('index.js', {buffer: false});
 	t.true(isStream(stream.contents));
 });

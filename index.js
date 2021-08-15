@@ -1,66 +1,59 @@
-'use strict';
-const path = require('path');
-const fs = require('graceful-fs');
-const stripBomBuf = require('strip-bom-buf');
-const stripBomStream = require('strip-bom-stream');
-const File = require('vinyl');
-const pify = require('pify');
+import process from 'node:process';
+import path from 'node:path';
+import fs, {promises as fsPromises} from 'node:fs';
+import stripBomBuffer from 'strip-bom-buf';
+import stripBomStream from 'strip-bom-stream';
+import File from 'vinyl';
 
-const fsP = pify(fs);
+export async function vinylFile(path_, options = {}) {
+	const {
+		cwd = process.cwd(),
+		base = cwd,
+		buffer = true,
+		read = true,
+	} = options;
 
-exports.read = (pth, opts) => {
-	opts = opts || {};
-
-	const cwd = opts.cwd || process.cwd();
-	const base = opts.base || cwd;
-
-	pth = path.resolve(cwd, pth);
-
-	return fsP.stat(pth).then(stat => {
-		const file = new File({
-			cwd,
-			base,
-			path: pth,
-			stat
-		});
-
-		if (opts.read === false) {
-			return file;
-		}
-
-		if (opts.buffer === false) {
-			file.contents = fs.createReadStream(pth).pipe(stripBomStream());
-			return file;
-		}
-
-		return fsP.readFile(pth).then(contents => {
-			file.contents = stripBomBuf(contents);
-			return file;
-		});
-	});
-};
-
-exports.readSync = (pth, opts) => {
-	opts = opts || {};
-
-	const cwd = opts.cwd || process.cwd();
-	const base = opts.base || cwd;
-
-	pth = path.resolve(cwd, pth);
+	path_ = path.resolve(cwd, path_);
 
 	let contents;
-
-	if (opts.read !== false) {
-		contents = opts.buffer === false ?
-			fs.createReadStream(pth).pipe(stripBomStream()) :
-			stripBomBuf(fs.readFileSync(pth));
+	if (read) {
+		contents = buffer
+			? stripBomBuffer(await fsPromises.readFile(path_))
+			: fs.createReadStream(path_).pipe(stripBomStream());
 	}
 
 	return new File({
 		cwd,
 		base,
-		path: pth,
-		stat: fs.statSync(pth),
-		contents
+		path: path_,
+		stat: await fsPromises.stat(path_),
+		contents,
 	});
-};
+}
+
+export function vinylFileSync(path_, options = {}) {
+	const {
+		cwd = process.cwd(),
+		base = cwd,
+		buffer = true,
+		read = true,
+	} = options;
+
+	path_ = path.resolve(cwd, path_);
+
+	let contents;
+
+	if (read) {
+		contents = buffer
+			? stripBomBuffer(fs.readFileSync(path_))
+			: fs.createReadStream(path_).pipe(stripBomStream());
+	}
+
+	return new File({
+		cwd,
+		base,
+		path: path_,
+		stat: fs.statSync(path_),
+		contents,
+	});
+}
