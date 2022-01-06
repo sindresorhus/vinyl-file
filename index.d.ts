@@ -1,0 +1,71 @@
+import {BufferFile, NullFile, StreamFile} from 'vinyl';
+
+export interface Options {
+	/**
+	Override the `base` of the Vinyl file.
+	@default process.cwd()
+	*/
+	base?: string;
+
+	/**
+	Override the `cwd` (current working directory) of the Vinyl file.
+	@default process.cwd()
+	*/
+	cwd?: string;
+
+	/**
+	Setting this to `false` will return `file.contents` as a stream. This is useful when working with large files.
+
+	__Note:__ Plugins might not implement support for streams.
+	@default true
+	*/
+	buffer?: boolean;
+
+	/**
+	Setting this to `false` will return `file.contents` as `null` and not read the file at all.
+	@default true
+	*/
+	read?: boolean;
+}
+
+/**
+Create a Vinyl file asynchronously and return it.
+@param path
+@param options
+@example
+```
+import {vinylFileSync} from 'vinyl-file';
+
+const file = vinylFileSync('index.js');
+
+console.log(file.path);
+//=> '/Users/sindresorhus/dev/vinyl-file/index.js'
+
+console.log(file.cwd);
+//=> '/Users/sindresorhus/dev/vinyl-file'
+```
+*/
+export function vinylFileSync(path: string, options: Options & {read: false}): NullFile;
+export function vinylFileSync(path: string, options: Options & {buffer: false}): StreamFile;
+export function vinylFileSync(path: string, options?: Options): BufferFile;
+
+/**
+Create a Vinyl file synchronously and return it.
+@param path
+@param options
+@example
+```
+import {vinylFile} from 'vinyl-file';
+
+const file = await vinylFile('index.js');
+
+console.log(file.path);
+//=> '/Users/sindresorhus/dev/vinyl-file/index.js'
+
+console.log(file.cwd);
+//=> '/Users/sindresorhus/dev/vinyl-file'
+```
+*/
+export function vinylFile(path: string, options: Options & {read: false}): Promise<NullFile>;
+export function vinylFile(path: string, options: Options & {buffer: false}): Promise<StreamFile>;
+export function vinylFile(path: string, options?: Options): Promise<BufferFile>;
