@@ -33,28 +33,10 @@ export interface Options {
 }
 
 /**
-Create a Vinyl file asynchronously and return it.
-@param path - Path of file to create vinyl file of.
-@example
-```
-import {vinylFileSync} from 'vinyl-file';
-
-const file = vinylFileSync('index.js');
-
-console.log(file.path);
-//=> '/Users/sindresorhus/dev/vinyl-file/index.js'
-
-console.log(file.cwd);
-//=> '/Users/sindresorhus/dev/vinyl-file'
-```
-*/
-export function vinylFileSync(path: string, options: Options & {read: false}): NullFile;
-export function vinylFileSync(path: string, options: Options & {buffer: false}): StreamFile;
-export function vinylFileSync(path: string, options?: Options): BufferFile;
-
-/**
 Create a Vinyl file synchronously and return it.
-@param path - Path of file to create vinyl file of.
+
+@param path - The path to the file to create a Vinyl file of.
+
 @example
 ```
 import {vinylFile} from 'vinyl-file';
@@ -71,3 +53,25 @@ console.log(file.cwd);
 export function vinylFile(path: string, options: Options & {read: false}): Promise<NullFile>;
 export function vinylFile(path: string, options: Options & {buffer: false}): Promise<StreamFile>;
 export function vinylFile(path: string, options?: Options): Promise<BufferFile>;
+
+/**
+Create a Vinyl file and return it.
+
+@param path - The path to the file to create a Vinyl file of.
+
+@example
+```
+import {vinylFileSync} from 'vinyl-file';
+
+const file = vinylFileSync('index.js');
+
+console.log(file.path);
+//=> '/Users/sindresorhus/dev/vinyl-file/index.js'
+
+console.log(file.cwd);
+//=> '/Users/sindresorhus/dev/vinyl-file'
+```
+*/
+export function vinylFileSync(path: string, options: Options & {read: false}): NullFile;
+export function vinylFileSync(path: string, options: Options & {buffer: false}): StreamFile;
+export function vinylFileSync(path: string, options?: Options): BufferFile;
