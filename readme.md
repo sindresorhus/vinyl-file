@@ -4,8 +4,8 @@
 
 ## Install
 
-```
-$ npm install vinyl-file
+```sh
+npm install vinyl-file
 ```
 
 ## Usage

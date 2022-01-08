@@ -34,14 +34,14 @@
 	],
 	"dependencies": {
 		"@types/vinyl": "^2.0.6",
-		"strip-bom-buf": "^3.0.0",
+		"strip-bom-buf": "^3.0.1",
 		"strip-bom-stream": "^5.0.0",
 		"vinyl": "^2.2.1"
 	},
 	"devDependencies": {
-		"ava": "^3.15.0",
+		"ava": "^4.0.0",
 		"is-stream": "^3.0.0",
 		"tsd": "^0.19.1",
-		"xo": "^0.44.0"
+		"xo": "^0.47.0"
 	}
 }
