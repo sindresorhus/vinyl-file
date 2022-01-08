@@ -33,7 +33,7 @@ export interface Options {
 }
 
 /**
-Create a Vinyl file synchronously and return it.
+Create a Vinyl file asynchronously and return it.
 
 @param path - The path to the file to create a Vinyl file of.
 
@@ -55,7 +55,7 @@ export function vinylFile(path: string, options: Options & {buffer: false}): Pro
 export function vinylFile(path: string, options?: Options): Promise<BufferFile>;
 
 /**
-Create a Vinyl file and return it.
+Create a Vinyl file synchronously and return it.
 
 @param path - The path to the file to create a Vinyl file of.
 
