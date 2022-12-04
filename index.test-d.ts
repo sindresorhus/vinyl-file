@@ -1,5 +1,5 @@
 import {expectType} from 'tsd';
-import {BufferFile, NullFile, StreamFile} from 'vinyl';
+import {type BufferFile, type NullFile, type StreamFile} from 'vinyl';
 import {vinylFile, vinylFileSync} from './index.js';
 
 expectType<Promise<NullFile>>(vinylFile('./', {read: false}));

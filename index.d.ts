@@ -1,6 +1,6 @@
-import {BufferFile, NullFile, StreamFile} from 'vinyl';
+import {type BufferFile, type NullFile, type StreamFile} from 'vinyl';
 
-export interface Options {
+export type Options = {
 	/**
 	Override the `base` of the Vinyl file.
 
@@ -30,7 +30,7 @@ export interface Options {
 	@default true
 	*/
 	read?: boolean;
-}
+};
 
 /**
 Create a Vinyl file asynchronously and return it.
