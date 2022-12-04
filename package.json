@@ -36,7 +36,7 @@
 		"@types/vinyl": "^2.0.6",
 		"strip-bom-buf": "^3.0.1",
 		"strip-bom-stream": "^5.0.0",
-		"vinyl": "^2.2.1"
+		"vinyl": "^3.0.0"
 	},
 	"devDependencies": {
 		"ava": "^4.0.0",
